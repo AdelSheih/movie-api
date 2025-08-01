@@ -14,6 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Review {
 	
+	public Review(String body) {
+		super();
+		this.body = body;
+	}
 	@Id
 	private ObjectId id;
 	private String body;

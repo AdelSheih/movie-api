@@ -25,6 +25,14 @@ public class Movie {
 	private List<String> genres;
 	private List<String> backdrops; 
 	private List<Review> reviewIds;
+	private List<Integer> ratings; // List of ratings (1-5 stars)
 	
+	public double getAverageRating() {
+		if (ratings == null || ratings.isEmpty()) return 0.0;
+		return ratings.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+	}
+	public int getRatingCount() {
+		return ratings == null ? 0 : ratings.size();
+	}
 
 }

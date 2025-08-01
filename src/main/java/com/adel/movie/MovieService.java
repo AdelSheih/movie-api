@@ -26,5 +26,25 @@ public class MovieService {
 		return movies;
 		
 	}
+	
+	public Movie getMovieByImdbId(String id) {
+		return movieRepository.findByImdbId(id)
+				.orElseThrow(() -> new RuntimeException("Movie not found with IMDB ID: " + id));
+		
+		
+	}
+	
+	public List<Movie> searchMovies(String title) {
+		return movieRepository.findByTitleContainingIgnoreCase(title);
+	}
+	
+	public void addRating(String imdbId, int rating) {
+		Movie movie = getMovieByImdbId(imdbId);
+		if (movie.getRatings() == null) {
+			movie.setRatings(new java.util.ArrayList<>());
+		}
+		movie.getRatings().add(rating);
+		movieRepository.save(movie);
+	}
 
 }

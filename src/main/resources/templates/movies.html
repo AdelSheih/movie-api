@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Explorer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            min-height: 100vh;
+        }
+        .movie-card {
+            transition: box-shadow 0.2s;
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            background: rgba(255,255,255,0.04);
+        }
+        .movie-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+        }
+        .card-img-top {
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
+            background: #222;
+        }
+        .card-title, .card-text {
+            color: #fff;
+        }
+        .btn-outline-primary {
+            border-radius: 20px;
+        }
+        .input-group .form-control {
+            border-radius: 20px 0 0 20px;
+        }
+        .input-group .btn {
+            border-radius: 0 20px 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">🎬 Movie Explorer</h1>
+    <form class="mb-4" method="get" action="/">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Search movies..." th:value="${search}">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="movie : ${movies}">
+            <div class="card movie-card h-100">
+                <img th:src="${movie.poster}" class="card-img-top" alt="Poster" style="height: 350px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${movie.title}"></h5>
+                    <p class="card-text text-muted" th:text="${movie.releaseDate}"></p>
+                    <a th:href="@{'/movies/' + ${movie.imdbId}}" class="btn btn-outline-primary w-100">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
