@@ -1,14 +1,11 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:21-jre
-
-# Set the working directory in the container
+# Build stage
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the built jar file (the name must match your build output)
-COPY target/movie-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose the port (Render will set $PORT)
-EXPOSE 8080
-
-# Run the jar file, using the PORT environment variable if set
-CMD ["sh", "-c", "java -jar app.jar --server.port=$PORT"]
+# Run stage
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
